@@ -54,6 +54,8 @@ updates.subcribe((account) => {
 });
 ```
 
+Once `update` occures on server, observer will recieve an event and will be able to update UI.
+
 ## Licence
 
 MIT alexander.beletsky@gmail.com

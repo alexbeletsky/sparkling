@@ -48,7 +48,7 @@ let updates = sparking.accounts.observable()
     .debounce(500)
     .flatMap((e) => return e.data);
 
-// subcribe to collection
+// subcribe to observable
 updates.subcribe((account) => {
     // update DOM here
 });

@@ -1,6 +1,6 @@
 # Sparkling API
 
-RxJS based, DDP powered, Express.js extension for building reactive API's.
+[RxJS](http://reactivex.io/) based, [DDP](https://www.meteor.com/ddp) powered, [Express.js](http://expressjs.com/) extension for building reactive API's.
 
 ## The idea
 
@@ -42,7 +42,7 @@ sparkling.reactiveCollections([
     'opportunities'
 ]);
 
-// create observable
+// create observable (returns RxJS Observable)
 let updates = sparking.accounts.observable()
     .filter((e) => return e.action === 'updated')
     .debounce(500)

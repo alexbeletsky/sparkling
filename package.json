@@ -1,0 +1,35 @@
+{
+  "name": "sparkling",
+  "version": "1.0.0",
+  "description": "RxJS based, DDP powered, Express.js extension for building reactive API's.",
+  "main": "index.js",
+  "directories": {
+    "example": "example"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/alexbeletsky/sparkling.git"
+  },
+  "keywords": [
+    "reactive",
+    "api",
+    "rest",
+    "streams",
+    "rxjs",
+    "ddp",
+    "express"
+  ],
+  "author": "alexander.beletsky@gmail.com",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/alexbeletsky/sparkling/issues"
+  },
+  "homepage": "https://github.com/alexbeletsky/sparkling",
+  "devDependencies": {
+    "express": "^4.13.3",
+    "mongojs": "^1.2.1"
+  }
+}

@@ -1,7 +1,7 @@
 var http = require('http');
 var DdpServer = require('ddp-server');
 
-function sparkling(app) {
+function sparkling(app, methods) {
 
     function factory() {
         return function(req, res, next) {

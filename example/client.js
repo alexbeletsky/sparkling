@@ -11,5 +11,15 @@ var client = new DDPClient({
 });
 
 client.connect(function (err, connected) {
-    console.log('in connect', err, connected);
+    if (err) {
+        throw err;
+    }
+
+    console.log('connected to ddp server');
+
+    client.call('test', {}, function (err, response) {
+        console.log('in callback 1', err, response);
+    }, function (err, response) {
+        console.log('in callback 2', err, response);
+    });
 });

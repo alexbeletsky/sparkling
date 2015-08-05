@@ -11,9 +11,9 @@ var app = express();
 var reactive = sparkling(app, {mongo: {connection: mongo, db: 'sparklingdb'}});
 
 app.use(morgan('combined'));
-app.use(reactive());
 app.use(bodyParser.json());
 app.use(methodOverride());
+app.use(reactive());
 
 app.listen(3000, function () {
     console.log('reactive api server started on port 3000...');

@@ -1,67 +1,55 @@
-var rx = require('rx');
-var http = require('http');
-var DdpServer = require('ddp-server');
-var MongoOplog = require('mongo-oplog');
+import http from 'http';
+import Rx from 'rx';
 
-function sparkling(app, options) {
+// import {Ddp} from './ddp';
+// import {Oplog} from './oplog';
+
+function factory(app, options) {
     if (!options || !options.mongo) {
         throw new Error('missing mongo configuration');
     }
 
-    function factory() {
-        return function(req, res, next) {
+    let middleware = () => {
+        return (req, res, next) => {
             next();
         };
-    }
+    };
 
-    function createObservable(oplog, name, ddp) {
-        return rx.Observable.create(function (o) {
-            oplog.on('op', function (e) {
+    let createObservable = (oplog, name, ddp) => {
+        return Rx.Observable.create((o) => {
+            oplog.on('op', (e) => {
                 o.onNext(e);
             });
 
-            oplog.on('error', function (err) {
+            oplog.on('error', (err) => {
                 o.onError(err);
             });
-        }).filter(function (e) {
+        }).filter((e) => {
             return e.ns.indexOf(name) > 0;
         });
-    }
+    };
 
-    function startObserving(name, responder, observable) {
-        var changes = observable.filter(function (e) {
+    let startObserving = (name, responder, observable) => {
+        var changes = observable.filter((e) => {
             return e.op === 'u';
         });
 
-        changes.subscribe(function (e) {
+        changes.subscribe((e) => {
             console.log('in observable changes', e);
-
             responder.collectionChanged(name,  e.o);
         });
-    }
+    };
 
-    app.listen = function () {
-        var server = http.createServer(this);
-        var ddp = new DdpServer({server: server});
-        var oplog = new MongoOplog(options.mongo.connection, {ns: options.mongo.db}).tail();
-
-        var subscriptions = [];
-
-        ddp.methods({
-            sub: function (id, name, params, responder) {
-                var observable = createObservable(oplog, name);
-                subscriptions.push({id: id, observable: observable});
-
-                startObserving(name, responder, observable);
-
-                return 'ready';
-            }
-        });
+    // overload app listen method
+    app.listen = () => {
+        let server = http.createServer(app);
+        let ddp = new DdpServer({server: server});
+        var oplog = new Oplog({connection: opitions.mongo});
 
         return server.listen.apply(server, arguments);
     };
 
-    return factory;
+    return middleware;
 }
 
-module.exports = sparkling;
+export default factory;

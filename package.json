@@ -31,8 +31,14 @@
   "homepage": "https://github.com/alexbeletsky/sparkling",
   "dependencies": {
     "ddp-server": "^0.5.2",
-    "ddp.js": "^1.1.0",
     "mongo-oplog": "^1.0.0-rc.1",
     "rx": "^3.0.0"
+  },
+  "devDependencies": {
+    "del": "^1.1.1",
+    "gulp": "^3.8.11",
+    "gulp-babel": "^5.2.0",
+    "gulp-plumber": "^0.6.6",
+    "gulp-watch": "^4.1.1"
   }
 }

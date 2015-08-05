@@ -30,6 +30,7 @@
   },
   "homepage": "https://github.com/alexbeletsky/sparkling",
   "dependencies": {
+    "ddp.js": "^1.1.0",
     "babelify": "^5.0.3",
     "body-parser": "^1.13.3",
     "browserify": "^6.0.3",
@@ -48,5 +49,8 @@
     "method-override": "^2.3.5",
     "mongojs": "^1.2.1",
     "morgan": "^1.6.1"
+  },
+  "devDependencies": {
+    "gulp-babel": "^5.2.0"
   }
 }

@@ -10,6 +10,7 @@ var sparkling = require('../');
 var app = express();
 var reactive = sparkling(app, {mongo: {connection: mongo, db: 'sparklingdb'}});
 
+app.use(express.static('public'));
 app.use(morgan('combined'));
 app.use(bodyParser.json());
 app.use(methodOverride());

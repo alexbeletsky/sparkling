@@ -18,4 +18,11 @@ client.connect(function (err, connected) {
     client.subscribe('accounts', [], function (err) {
         console.log('subscribe - accounts', err, client.collections);
     });
+
+    var observable = client.observe('accounts');
+    observable.changed = function(id, oldFields, clearedFields) {
+        console.log("[CHANGED] in " + observable.name + ":  " + id);
+        console.log("[CHANGED] old field values: ", oldFields);
+        console.log("[CHANGED] cleared fields: ", clearedFields);
+    };
 });

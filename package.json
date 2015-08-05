@@ -38,6 +38,7 @@
   },
   "dependencies": {
     "ddp": "^0.11.0",
-    "ddp-server": "^0.5.2"
+    "ddp-server": "^0.5.2",
+    "mongo-oplog": "^1.0.0-rc.1"
   }
 }

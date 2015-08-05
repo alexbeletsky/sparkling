@@ -15,11 +15,7 @@ client.connect(function (err, connected) {
         throw err;
     }
 
-    console.log('connected to ddp server');
-
-    client.call('test', {}, function (err, response) {
-        console.log('in callback 1', err, response);
-    }, function (err, response) {
-        console.log('in callback 2', err, response);
+    client.subscribe('accounts', [], function (err) {
+        console.log('subscribe - accounts', err, client.collections);
     });
 });

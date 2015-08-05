@@ -13,24 +13,31 @@ function sparkling(app, options) {
         };
     }
 
+    function createObserver(oplog, ddp) {
+
+    }
+
     app.listen = function () {
         var server = http.createServer(this);
         var ddp = new DdpServer({server: server});
         var oplog = new MongoOplog(options.mongo.connection, {ns: options.mongo.db}).tail();
 
+        var subscriptions = [];
+
+        // oplog.on('op', function (e) {
+        //     console.log(e);
+        // });
+        //
+        // oplog.on('error', function (e) {
+        //     console.error(e);
+        // });
+
         ddp.methods({
-            test: function () {
-                console.log('ddp - test method called');
-                return true;
+            sub: function (id, name, params) {
+                subscriptions.push({id: id, observer: createObserver(oplog, ddp)});
+
+                return 'ready';
             }
-        });
-
-        oplog.on('op', function (e) {
-            console.log(e);
-        });
-
-        oplog.on('error', function (e) {
-            console.error(e);
         });
 
         return server.listen.apply(server, arguments);

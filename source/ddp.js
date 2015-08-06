@@ -1,3 +1,5 @@
-export default class Ddp {
+function Ddp() {
 
 }
+
+module.exports = Ddp;

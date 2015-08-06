@@ -2,7 +2,7 @@
   "name": "sparkling",
   "version": "1.0.0",
   "description": "RxJS based, DDP powered, Express.js extension for building reactive API's.",
-  "main": "dist/index.js",
+  "main": "index.js",
   "directories": {
     "example": "example"
   },

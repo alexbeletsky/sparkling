@@ -1,8 +1,8 @@
-import http from 'http';
-import sparkling from './sparkling';
+var http = require('http');
+var sparkling = require('./sparkling');
 
 function factory(app, options) {
-    let middleware = () => {
+    var middleware = function () {
         return (req, res, next) => {
             next();
         };
@@ -10,19 +10,21 @@ function factory(app, options) {
 
     // overload app listen method
     app.listen = function () {
-        let httpServer = http.createServer(app);
-        let sparklingServer = sparkling.createServer(httpServer, options);
+        var httpServer = http.createServer(app);
+        var sparklingServer = sparkling.createServer(httpServer, options);
 
-        sparklingServer.start((err) => {
+        var args = arguments;
+
+        sparklingServer.start(function (err) {
             if (err) {
                 throw new Error(err);
             }
 
-            httpServer.listen.apply(httpServer, arguments);
+            httpServer.listen.apply(httpServer, args);
         });
     };
 
     return middleware;
 }
 
-export default factory;
+module.exports = factory;

@@ -1,11 +1,9 @@
-import rx from 'rx';
-
-import Ddp from './ddp';
-import Oplog from './oplog';
+var Ddp = require('./ddp');
+var Oplog = require('./oplog');
 
 function Sparkling(http, mongo) {
-    let ddp = new Ddp({server: http});
-    let oplog = new Oplog({connection: mongo});
+    var ddp = new Ddp({server: http});
+    var oplog = new Oplog({connection: mongo});
 
     return {
         start: function (callback) {
@@ -25,12 +23,12 @@ function Sparkling(http, mongo) {
                 console.log('unsubscription');
             });
 
-            Promise.all([]).then(callback);
+            //Promise.all([]).then(callback);
         }
     };
 }
 
-let factory = {
+module.exports = {
     createServer: function(server, options) {
         if (!options || !options.mongo) {
             throw new Error('missing mongo configuration');
@@ -39,5 +37,3 @@ let factory = {
         return new Sparkling(server, options.mongo);
     }
 };
-
-export default factory;

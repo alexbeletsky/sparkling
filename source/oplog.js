@@ -1,3 +1,5 @@
-export default class Oplog {
+function Oplog () {
 
 }
+
+module.exports = Oplog;

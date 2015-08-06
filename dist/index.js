@@ -1,10 +1,10 @@
 'use strict';
 
+var _interopRequireDefault = require('babel-runtime/helpers/interop-require-default')['default'];
+
 Object.defineProperty(exports, '__esModule', {
     value: true
 });
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
 
 var _http = require('http');
 
@@ -42,4 +42,4 @@ function factory(app, options) {
 
 exports['default'] = factory;
 module.exports = exports['default'];
-//# sourceMappingURL=index.js.map
+//# sourceMappingURL=maps/index.js.map

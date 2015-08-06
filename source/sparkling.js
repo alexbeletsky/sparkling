@@ -1,3 +1,5 @@
+import rx from 'rx';
+
 import Ddp from './ddp';
 import Oplog from './oplog';
 
@@ -7,27 +9,23 @@ function Sparkling(http, mongo) {
 
     return {
         start: function (callback) {
-            console.log('Sparkling started');
+            ddp.on('ready', () => {
+                console.log('ddp server ready');
+            });
 
-            // ddp.on('ready', () => {
-            //     console.log('ddp server ready');
-            // });
-            //
-            // oplog.on('ready', () => {
-            //     console.log('oplog connection ready');
-            // });
-            //
-            // ddp.on('sub', () => {
-            //     console.log('subscription');
-            // });
-            //
-            // ddp.on('unsub', () => {
-            //     console.log('unsubscription');
-            // });
-            //
-            // oplog.connect();
-            // ddp.start();
-            callback();
+            oplog.on('ready', () => {
+                console.log('oplog connection ready');
+            });
+
+            ddp.on('sub', () => {
+                console.log('subscription');
+            });
+
+            ddp.on('unsub', () => {
+                console.log('unsubscription');
+            });
+
+            Promise.all([]).then(callback);
         }
     };
 }

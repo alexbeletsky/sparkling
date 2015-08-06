@@ -3,17 +3,16 @@ var del = require('del');
 var watch = require('gulp-watch');
 var babel = require('gulp-babel');
 var sourcemaps = require('gulp-sourcemaps');
-var concat = require('gulp-concat');
 
 gulp.task('clean', function (cb) {
 	del(['dist'], cb);
 });
 
-gulp.task('babel', function () {
+gulp.task('babel', ['clean'], function () {
 	return gulp.src('source/**/*.js')
 	    .pipe(sourcemaps.init())
-	    .pipe(babel())
-	    .pipe(sourcemaps.write('.'))
+	    .pipe(babel({optional: ['runtime']}))
+	    .pipe(sourcemaps.write('./maps'))
 	    .pipe(gulp.dest('dist'));
 });
 
@@ -24,7 +23,7 @@ gulp.task('watch', function () {
 	});
 });
 
-gulp.task('build', ['babel']);
+gulp.task('build', ['clean', 'babel']);
 gulp.task('start', ['build', 'watch']);
 
 gulp.task('default', ['build']);

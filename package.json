@@ -2,7 +2,7 @@
   "name": "sparkling",
   "version": "1.0.0",
   "description": "RxJS based, DDP powered, Express.js extension for building reactive API's.",
-  "main": "index.js",
+  "main": "dist/index.js",
   "directories": {
     "example": "example"
   },
@@ -38,7 +38,6 @@
     "del": "^1.1.1",
     "gulp": "^3.8.11",
     "gulp-babel": "^5.2.0",
-    "gulp-concat": "^2.6.0",
     "gulp-plumber": "^0.6.6",
     "gulp-sourcemaps": "^1.5.2",
     "gulp-watch": "^4.1.1"

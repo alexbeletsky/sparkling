@@ -6,25 +6,28 @@ function Sparkling(http, mongo) {
     let oplog = new Oplog({connection: mongo});
 
     return {
-        start: function () {
-            ddp.on('ready', () => {
-                console.log('ddp server ready');
-            });
+        start: function (callback) {
+            console.log('Sparkling started');
 
-            oplog.on('ready', () => {
-                console.log('oplog connection ready');
-            });
-
-            ddp.on('sub', () => {
-                console.log('subscription');
-            });
-
-            ddp.on('unsub', () => {
-                console.log('unsubscription');
-            });
-
-            oplog.connect();
-            ddp.start();
+            // ddp.on('ready', () => {
+            //     console.log('ddp server ready');
+            // });
+            //
+            // oplog.on('ready', () => {
+            //     console.log('oplog connection ready');
+            // });
+            //
+            // ddp.on('sub', () => {
+            //     console.log('subscription');
+            // });
+            //
+            // ddp.on('unsub', () => {
+            //     console.log('unsubscription');
+            // });
+            //
+            // oplog.connect();
+            // ddp.start();
+            callback();
         }
     };
 }

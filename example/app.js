@@ -5,7 +5,7 @@ var morgan = require('morgan');
 
 var mongo = 'mongodb://localhost:27017/sparklingdb';
 
-var sparkling = require('../');
+var sparkling = require('../dist');
 
 var app = express();
 var reactive = sparkling(app, {mongo: {connection: mongo, db: 'sparklingdb'}});

@@ -7,23 +7,27 @@ function Sparkling(http, mongo) {
 
     return {
         start: function (callback) {
-            ddp.on('ready', () => {
+            ddp.on('ready', function () {
                 console.log('ddp server ready');
             });
 
-            oplog.on('ready', () => {
+            oplog.on('ready', function () {
                 console.log('oplog connection ready');
             });
 
-            ddp.on('sub', () => {
+            ddp.on('sub', function () {
                 console.log('subscription');
             });
 
-            ddp.on('unsub', () => {
+            ddp.on('unsub', function () {
                 console.log('unsubscription');
             });
 
             //Promise.all([]).then(callback);
+
+            console.log('Sparkling starting');
+
+            callback();
         }
     };
 }

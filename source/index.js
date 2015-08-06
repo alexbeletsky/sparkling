@@ -3,7 +3,7 @@ var sparkling = require('./sparkling');
 
 function factory(app, options) {
     var middleware = function () {
-        return (req, res, next) => {
+        return function(req, res, next) {
             next();
         };
     };

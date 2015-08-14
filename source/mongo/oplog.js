@@ -2,30 +2,20 @@ var util = require('util');
 var events = require('events');
 
 var _ = require('lodash');
-var mongo = require('mongojs');
 var rx = require('rx-node');
+var MongoOplog = require('mongo-oplog');
 
 function Oplog(connection, options) {
-    this.connection = connection;
-    this.options = options;
+    this.mongoOplog = new MongoOplog(options.mongo.connection, {ns: options.mongo.db});
 
     events.EventEmitter.call(this);
 }
 
 _.extend(Oplog.prototype.connect, {
-    connect: function () {
-        var connection = mongo(this.connection);
-        if (!connection) {
-            return this.emit('error', 'failed to connect to mongo instance.');
-        }
+    observe: function () {
+        var cursor = this.mongoOplog.tail();
 
-        
-
-        return this;
-    },
-
-    observable: function () {
-        return rx.fromReadableStream(this.cursor);
+        return rx.fromReadableStream(cursor);
     }
 });
 

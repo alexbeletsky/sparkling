@@ -13,15 +13,7 @@ function factory(app, options) {
         var httpServer = http.createServer(app);
         var sparklingServer = sparkling.createServer(httpServer, options);
 
-        var args = arguments;
-
-        sparklingServer.start(function (err) {
-            if (err) {
-                throw new Error(err);
-            }
-
-            httpServer.listen.apply(httpServer, args);
-        });
+        sparklingServer.listen.apply(sparklingServer, arguments);
     };
 
     return middleware;

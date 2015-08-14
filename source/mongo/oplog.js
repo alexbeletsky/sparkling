@@ -5,8 +5,8 @@ var _ = require('lodash');
 var rx = require('rx-node');
 var MongoOplog = require('mongo-oplog');
 
-function Oplog(connection, options) {
-    this.mongoOplog = new MongoOplog(options.mongo.connection, {ns: options.mongo.db});
+function Oplog(options) {
+    this.mongoOplog = new MongoOplog(options.connection, {ns: options.db});
 
     events.EventEmitter.call(this);
 }

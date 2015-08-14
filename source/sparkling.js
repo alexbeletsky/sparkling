@@ -1,7 +1,7 @@
 var _ = require('lodash');
+var Ddp = require('ddp-server-event');
 
-var Ddp = require('./ddp');
-var Oplog = require('./oplog');
+var Oplog = require('./mongo/oplog');
 
 function Sparkling(http, mongo) {
     var ddp = new Ddp({server: http});
@@ -50,15 +50,13 @@ function Sparkling(http, mongo) {
     };
 
     return {
-        start: function (callback) {
+        listen: function () {
             ddp.on('ready', function () {
                 console.log('ddp server ready');
-                callback(null);
             });
 
             ddp.on('error', function (err) {
                 console.log('ddp server failed to start');
-                callback(err);
             });
 
             ddp.on('sub', function (id, collection, params) {
@@ -79,7 +77,7 @@ function Sparkling(http, mongo) {
                 subscription.stopObserving(this);
             });
 
-            ddp.connect();
+            ddp.listen.apply(ddp, arguments);
         }
     };
 }

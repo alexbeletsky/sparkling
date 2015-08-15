@@ -2,6 +2,7 @@ var _ = require('lodash');
 var Ddp = require('ddp-server-event');
 
 var Oplog = require('./mongo/oplog');
+var logger = require('./logger');
 
 function Sparkling(http, mongo) {
     var ddp = new Ddp({server: http});
@@ -52,11 +53,11 @@ function Sparkling(http, mongo) {
     return {
         listen: function () {
             ddp.on('ready', function () {
-                console.log('ddp server ready');
+                logger.info('ddp server ready');
             });
 
             ddp.on('error', function (err) {
-                console.log('ddp server failed to start');
+                logger.info('ddp server failed to start');
             });
 
             ddp.on('sub', function (id, collection, params) {

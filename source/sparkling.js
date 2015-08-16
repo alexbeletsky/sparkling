@@ -10,23 +10,23 @@ function Sparkling(http, mongo) {
 
     var subscriptions = {};
 
+    var msgTypes = {
+        'i': 'added',
+        'u': 'changed',
+        'd': 'removed'
+    };
+
     var subscriptionKey = function (id, collection) {
         return id + '-' + collection;
     };
 
     var oplogFilter = function (e) {
-        return _.contains(e.op, ['i', 'u', 'd']);
+        return _.contains(_.keys(msgTypes), e.op);
     };
 
     var oplogToDdpEvent = function (e) {
-        var msgTypes = {
-            'i': 'created',
-            'u': 'updated',
-            'd': 'removed'
-        };
-
         return {
-            id: e._id,
+            id: e.o._id,
             msg: msgTypes[e.op],
             fields: e.o
         };
@@ -40,7 +40,9 @@ function Sparkling(http, mongo) {
         return {
             startObserving: function (ddp) {
                 observable.subscribe(function (e) {
-                    ddp.sendEvent(e);
+                    logger.info('overserver for', collection, 'recieved event', e.msg, e);
+
+                    ddp.sendEvent(e.msg, e);
                 });
             },
 
@@ -56,6 +58,10 @@ function Sparkling(http, mongo) {
                 logger.info('ddp server ready');
             });
 
+            oplog.on('ready', function (e) {
+                logger.info('oplog ready', e.connection);
+            });
+
             ddp.on('error', function (err) {
                 logger.info('ddp server failed to start');
             });
@@ -65,8 +71,12 @@ function Sparkling(http, mongo) {
                 var key = subscriptionKey(id, collection);
 
                 subscriptions[key] = subscription;
-
                 subscription.startObserving(this);
+
+                logger.info('subscribed', id, collection);
+                logger.info('sending ready');
+
+                this.sendReady(id);
             });
 
             ddp.on('unsub', function (id, collection, params) {
@@ -76,6 +86,11 @@ function Sparkling(http, mongo) {
                 var subscription = subscriptions[key];
 
                 subscription.stopObserving(this);
+
+                logger.info('usubscribed', id, collection);
+                logger.info('sending ready');
+
+                this.sendReady(id);
             });
 
             ddp.listen.apply(ddp, arguments);

@@ -1,23 +1,32 @@
 var util = require('util');
 var events = require('events');
 
-var _ = require('lodash');
-var rx = require('rx-node');
+var rx = require('rx');
 var MongoOplog = require('mongo-oplog');
 
 function Oplog(options) {
-    this.mongoOplog = new MongoOplog(options.connection, {ns: options.db});
+    this.mongoOplog = new MongoOplog(options.connection.connection, {ns: options.connection.db});
 
     events.EventEmitter.call(this);
-}
 
-_.extend(Oplog.prototype.connect, {
-    observe: function () {
+    this.createObservable = function (name) {
         var cursor = this.mongoOplog.tail();
 
-        return rx.fromReadableStream(cursor);
-    }
-});
+        return rx.Observable.create(function (o) {
+            cursor.on('op', function (e) {
+                o.onNext(e);
+            });
+
+            cursor.on('error', function (err) {
+                o.onError(err);
+            });
+        }).filter(function (e) {
+            return e.ns.indexOf(name) > 0;
+        });
+    };
+
+    this.emit('ready', options.connection);
+}
 
 util.inherits(Oplog, events.EventEmitter);
 

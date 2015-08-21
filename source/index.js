@@ -13,6 +13,7 @@ function factory(app, options) {
         var httpServer = http.createServer(app);
         var sparklingServer = sparkling.createServer(httpServer, options);
 
+        // sparklingServer will call http.listen()
         sparklingServer.listen.apply(sparklingServer, arguments);
     };
 
